@@ -16,7 +16,8 @@ pub fn main() !void {
     const stdout = &stdout_writer.interface;
 
     var current: i32 = 50;
-    var count: u32 = 0;
+    var count_1: u32 = 0;
+    var count_2: u32 = 0;
 
     read_loop: while (true) {
         if (reader.takeDelimiter('\n')) |line_r| {
@@ -34,14 +35,20 @@ pub fn main() !void {
 
             const num = try std.fmt.parseInt(i32, slc, 10);
 
-            if (is_left) {
-                current -= num;
-            } else {
-                current += num;
+            var i: i32 = 0;
+            while (i < num) : (i += 1) {
+                if (is_left) {
+                    current -= 1;
+                } else {
+                    current += 1;
+                }
+                if (@mod(current, 100) == 0) {
+                    count_2 += 1;
+                }
             }
 
             if (@mod(current, 100) == 0) {
-                count += 1;
+                count_1 += 1;
             }
         } else |err| switch (err) {
             error.ReadFailed => {
@@ -52,6 +59,6 @@ pub fn main() !void {
             },
         }
     }
-    try stdout.print("{any}\n", .{count});
+    try stdout.print("part 1: {any}, part 2: {any}\n", .{ count_1, count_2 });
     try stdout.flush();
 }
