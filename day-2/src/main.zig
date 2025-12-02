@@ -37,9 +37,9 @@ pub fn main() !void {
         i_runner: while (i <= until) : (i += 1) {
             const log10 = std.math.log10(i);
             if (log10 % 2 != 0) { // even logs correspond to odd number of digits
-                // if a number is something twice, it divides (10 ** ceil(log10 / 2)) + 1, i.e. 11, 101, 1001
-                // log10(11) = 1.something, it divides 11
-                // log10(1111) = 3.something, it divides 101
+                // if a number is something twice, (10 ** ceil(log10 / 2)) + 1 divides it, i.e. 11, 101, 1001
+                // log10(11) = 1.something, 11 divides it
+                // log10(1111) = 3.something, 101 divides it
                 const divides = std.math.pow(u64, 10, @divFloor(log10, 2) + 1) + 1;
                 if (i % divides == 0) {
                     sums_p1 += i;
